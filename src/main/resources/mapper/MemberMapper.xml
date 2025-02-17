@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.impl.mapper.MemberMapper">
+    <!-- 新增 -->
+    <insert id="addMember" parameterType="com.example.demo.model.Member">
+    	INSERT INTO member(name,username,password,address) VALUES(#{name},#{username},#{password},#{address}) ;
+    </insert>
+    
+    <!-- 查詢 -->
+    <select id="findAll" resultType="com.example.demo.model.Member">
+    	SELECT * FROM member ;
+    </select>
+    
+    <select id="findById" parameterType="Integer" resultType="com.example.demo.model.Member">
+    	SELECT * FROM member WHERE id=#{id} ;
+    </select>
+    
+    <select id="findByUsername" parameterType="String" resultType="com.example.demo.model.Member">
+    	SELECT * FROM member WHERE username=#{username} ;
+    </select>
+    
+    <select id="findByName" parameterType="String" resultType="com.example.demo.model.Member">
+    	SELECT * FROM member WHERE name=#{name} ;
+    </select>
+    
+    <select id="findByAddress" parameterType="String" resultType="com.example.demo.model.Member">
+    	SELECT * FROM member WHERE address=#{address};
+    </select>
+
+	<!-- 修改 -->
+	<update id="updateMember" parameterType="com.example.demo.model.Member">
+		UPDATE member SET name=#{name}, username=#{username}, password=#{password}, address=#{address} WHERE id=#{id} ;
+	</update>
+
+	<!-- 刪除 -->
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM member WHERE id=#{id} ;
+	</delete>
+
+</mapper>
