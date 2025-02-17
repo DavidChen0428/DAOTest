@@ -6,18 +6,18 @@ import com.example.demo.model.Member;
 
 public interface MemberService {
 	// create
-	void addMember(Member member);
+	void addMember(Member member) throws ServiceException;
 	
 	// read
-	List<Member> findAllMember();
-	List<Member> findMemberByAddress(String address);
-	Member Login(String username,String password);
-	boolean checkUsernameBeenUsed(String username);
+	List<Member> findAllMember() throws ServiceException;
+	List<Member> findMemberByAddress(String address) throws ServiceException;
+	Member login(String username,String password) throws ServiceException;
+	boolean checkUsernameBeenUsed(String username) throws ServiceException;
 	
 	// update
-	void updateMember(int id, String name, String username, String password, String address);
+	void updateMember(int id, String name, String username, String password, String address) throws ServiceException;
 	
 	// delete
-	void deleteMemberById(int id);
+	void deleteMemberById(int id) throws ServiceException;
 	
 }

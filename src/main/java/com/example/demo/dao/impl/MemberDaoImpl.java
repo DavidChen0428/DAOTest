@@ -1,29 +1,28 @@
-package com.example.demo.dao.impl.jdbc;
+package com.example.demo.dao.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.dao.DAO;
 import com.example.demo.dao.DAOException;
+import com.example.demo.dao.impl.jpa.MemberRepository;
 import com.example.demo.model.Member;
 
 @Repository
-public class MemberDaoImpl implements DAO<Member>{
+public class MemberDaoImpl implements DAO<Member> {
 	@Autowired
-	MemberJdbcAPI memberJdbcAPI;
-	
+	MemberRepository memberDao;
+
 	@Override
 	public void create(Member data) throws DAOException {
-		memberJdbcAPI.addMember(data);
+		memberDao.save(data);
 	}
 
 	@Override
 	public List<Member> findAll() throws DAOException{
-		return memberJdbcAPI.findAll();
+		return memberDao.findAll();
 	}
 	
 	// 找出部分資料
@@ -32,7 +31,7 @@ public class MemberDaoImpl implements DAO<Member>{
 	public List<Member> findSome(Object key) throws DAOException{
 		if(key instanceof String) {
 			if(existsByAddress((String)key)) {
-				List<Member> list=memberJdbcAPI.findByAddress((String)key);
+				List<Member> list=memberDao.findByAddress((String)key);
 				if(list.size()==0) {
 					throw new DAOException("findSome():No matching data found.");
 				}
@@ -46,7 +45,7 @@ public class MemberDaoImpl implements DAO<Member>{
 	}
 	
 	boolean existsByAddress(String key) {
-		if(memberJdbcAPI.findByAddress(key).size()!=0) {
+		if(memberDao.findByAddress(key).size()!=0) {
 			return true;
 		}else {
 			return false;
@@ -59,11 +58,11 @@ public class MemberDaoImpl implements DAO<Member>{
 	public Member findOne(Object key) throws DAOException {
 		if (key instanceof Integer) {
 			int keyValue=(Integer) key;
-			return memberJdbcAPI.findById(keyValue).get(0);
+			return memberDao.findById(keyValue).get(0);
 		} else if (key instanceof String) {
-			Member member=memberJdbcAPI.findByUsername((String)key).get(0);
+			Member member=memberDao.findByUsername((String)key).get(0);
 			if(member==null) {
-				member=memberJdbcAPI.findByName((String)key).get(0);
+				member=memberDao.findByName((String)key).get(0);
 				if(member==null) {
 					throw new DAOException("findOne():No matching data found.");
 				}
@@ -76,15 +75,16 @@ public class MemberDaoImpl implements DAO<Member>{
 
 	@Override
 	public void update(Member data) throws DAOException {
-		memberJdbcAPI.updateMember(data);
+		memberDao.save(data);
 	}
 
 	@Override
 	public void delete(Object key) throws DAOException {
 		if(key instanceof Integer) {
-			memberJdbcAPI.deleteById((Integer) key);
+			memberDao.deleteById((Integer) key);
 		}else {
 			throw new DAOException("delete():currently only applies to Id");
 		}
 	}
+
 }
