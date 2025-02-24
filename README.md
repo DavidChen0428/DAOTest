@@ -17,5 +17,5 @@ DAO (package)
   - MemberDaoImpl (class)
 
 有DAO的好處是，當需要切換ORM時，只需要更改實作類別內Autowired的物件資料型態，即可更換ORM，而不需要徹底重寫
-create 2025/01/14
+create 2025/01/14\n
 update 2025/02/17
